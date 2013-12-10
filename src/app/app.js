@@ -1,26 +1,47 @@
-angular.module( 'ngBoilerplate', [
+angular.module( 'bkJoga', [
+  'ngResource',
+  'ui.bootstrap',
+  'ui.router',
   'templates-app',
   'templates-common',
-  'ngBoilerplate.home',
-  'ngBoilerplate.about',
-  'ui.state',
-  'ui.route'
+  'bkJoga.home',
+  'bkJoga.jogasok',
+  'bkJoga.about'
 ])
 
 .config( function myAppConfig ( $stateProvider, $urlRouterProvider ) {
-  $urlRouterProvider.otherwise( '/home' );
+  $urlRouterProvider.otherwise( '/alkalmak' );
 })
 
-.run( function run () {
+.run()
+
+.factory( 'Global', function( $resource ){
+  var Jogas = $resource('/jogasok/:id/:action', {
+    'id': '@_id', 
+    'action': '@action'
+  }, {
+    'ujBerlet': {'method': 'POST', 'params': {'action': 'ujBerlet'}}
+  });
+  var jogasok = Jogas.query();
+  return {
+    getJogasok: function() {
+      return jogasok;
+    },
+    addJogas: function(jogas) {
+      jogas = new Jogas(jogas);
+      return jogas.$save(function(value, hdrs){
+        jogasok.push(value);
+      });
+    }
+  };
 })
 
 .controller( 'AppCtrl', function AppCtrl ( $scope, $location ) {
   $scope.$on('$stateChangeSuccess', function(event, toState, toParams, fromState, fromParams){
     if ( angular.isDefined( toState.data.pageTitle ) ) {
-      $scope.pageTitle = toState.data.pageTitle + ' | ngBoilerplate' ;
+      $scope.pageTitle = toState.data.pageTitle + ' | bkJoga' ;
     }
   });
 })
 
 ;
-

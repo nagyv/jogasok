@@ -12,9 +12,8 @@
  * The dependencies block here is also where component dependencies should be
  * specified, as shown below.
  */
-angular.module( 'ngBoilerplate.home', [
-  'ui.state',
-  'plusOne'
+angular.module( 'bkJoga.home', [
+  'ui.router'
 ])
 
 /**
@@ -22,23 +21,67 @@ angular.module( 'ngBoilerplate.home', [
  * will handle ensuring they are all available at run-time, but splitting it
  * this way makes each module more "self-contained".
  */
-.config(function config( $stateProvider ) {
-  $stateProvider.state( 'home', {
-    url: '/home',
-    views: {
-      "main": {
-        controller: 'HomeCtrl',
-        templateUrl: 'home/home.tpl.html'
-      }
-    },
-    data:{ pageTitle: 'Home' }
+.config( function config( $stateProvider ) {
+  $stateProvider
+  .state( 'alkalom', {
+    url: '/alkalmak',
+    controller: 'AlkalomCtrl',
+    templateUrl: 'home/home.tpl.html',
+    data:{ pageTitle: 'Alkalmak' }
+  })
+  .state('alkalom.details', {
+    url: '/:alkalomId',
+    controller: 'AlkalomItemCtrl',
+    templateUrl: 'home/alkalom.tpl.html',
+    data:{ pageTitle: 'Alkalom' }
   });
+})
+
+.factory('Alkalom', function($resource) {
+  var Alkalom = $resource('/alkalmak/:id/:action', {
+    'id': '@_id',
+    'action': '@action'
+  }, {
+    'addResztvevo': {'method': 'POST', 'params': {'action': 'addResztvevo'}}
+  });
+  return Alkalom;
 })
 
 /**
  * And of course we define a controller for our route.
  */
-.controller( 'HomeCtrl', function HomeController( $scope ) {
+.controller( 'AlkalomCtrl', function HomeController( $scope, Global, Alkalom , $stateParams, $state) {
+  console.log('AlkalomCtrl initialized', $stateParams);
+  $scope.alkalmak = Alkalom;
+  $scope.setupAlkalom = function(alkalom) {
+    alkalom = new Alkalom(alkalom);
+    return alkalom.$save(function(value, hdrs){
+      $state.go('.details', {'alkalomId': value._id});
+    });
+  };
+})
+
+.controller( 'AlkalomItemCtrl', function AlkalomItemCtrl($scope, Global, Alkalom, $stateParams) {
+  console.log('AlkalomItemCtrl initialized', $stateParams);
+  $scope.jogasok = Global.getJogasok();
+  $scope.alkalom = Alkalom.get($stateParams.alkalomId)
+  $scope.addJogas = function(jogas) {
+    $scope.jogasok = Global.addJogas( jogas );
+    $scope.addResztvevo(jogas);
+  };
+  $scope.addResztvevo = function(jogas) {
+    $scope.alkalom.$addResztvevo({
+      '_id': $scope.alkalom._id,
+      'jogas': jogas._id
+    }, function(value, hdrs) {
+      $scope.alkalom = value;
+      // .resztvevok.push(jogas);
+    });
+  };
+  $scope.removeResztvevo = function(index) {
+    $scope.alkalom.resztvevok.splice(index, 1)
+    $scope.alkalom.$save();
+  };
 })
 
 ;

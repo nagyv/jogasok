@@ -1,12 +1,11 @@
-angular.module( 'ngBoilerplate.about', [
-  'ui.state',
-  'placeholders',
-  'ui.bootstrap'
+angular.module( 'bkJoga.about', [
+  'ui.router',
+  'placeholders'
 ])
 
 .config(function config( $stateProvider ) {
   $stateProvider.state( 'about', {
-    url: '/about',
+    url: '/berlet',
     views: {
       "main": {
         controller: 'AboutCtrl',

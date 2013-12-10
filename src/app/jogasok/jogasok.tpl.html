@@ -1,0 +1,27 @@
+<div class="jumbotron">
+  <h1>Jógázók listája</h1>
+
+  Szűrés: <input type="text" ng-model="search">
+  <accordion>
+  	<accordion-group heading="Új ember" is-open="true" ng-hide="search">
+  		<form>
+		    <label>Név<input type="text" ng-model="jogas.name"/></label>
+			<label>Becenév<input type="text" ng-model="jogas.nick"/></label>
+			<label>E-mail<input type="text" ng-model="jogas.email"/></label>
+		    <button ng-click="addJogas(jogas)">Add</button>
+		  </form>
+  	</accordion-group>
+  	<accordion-group ng-repeat="jogas in jogasok | filter:search" heading="{{jogas.name}}">
+	<form>
+		<label>Név<input type="text" value="{{jogas.name}}" ng-model="jogas.name" /></label>
+		<label>Becenév<input type="text" value="{{jogas.nick}}" ng-model="jogas.nick" /></label>
+		<label>E-mail<input type="text" value="{{jogas.email}}" ng-model="jogas.email" /></label>
+		<button class="btn btn-primary" ng-click="jogas.$save()">Ment</button>
+		<button class="btn" ng-click="openBerlet($index)">Bérletet vesz</button>
+	</form>
+  	</accordion-group>
+  </accordion>
+  
+
+</div>
+
