@@ -27,6 +27,12 @@ angular.module( 'bkJoga.home', [
     url: '/alkalmak',
     controller: 'AlkalomCtrl',
     templateUrl: 'home/home.tpl.html',
+    data:{ pageTitle: 'Új alkalom' }
+  })
+  .state( 'alkalom.list', {
+    url: '/list',
+    controller: 'AlkalomListCtrl',
+    templateUrl: 'home/alkalom.list.tpl.html',
     data:{ pageTitle: 'Alkalmak' }
   })
   .state('alkalom.details', {
@@ -51,7 +57,6 @@ angular.module( 'bkJoga.home', [
  * And of course we define a controller for our route.
  */
 .controller( 'AlkalomCtrl', function HomeController( $scope, Global, Alkalom , $stateParams, $state) {
-  console.log('AlkalomCtrl initialized', $stateParams);
   $scope.alkalmak = Alkalom;
   $scope.setupAlkalom = function(alkalom) {
     alkalom = new Alkalom(alkalom);
@@ -66,7 +71,9 @@ angular.module( 'bkJoga.home', [
     return Date.now().hour + 1;
   };
 })
-
+.controller( 'AlkalomListCtrl', function AlkalomListCtrl( $scope, Alkalom) {
+  $scope.alkalmak = Alkalom.query();
+})
 .controller( 'AlkalomItemCtrl', function AlkalomItemCtrl($scope, Global, Alkalom, $stateParams) {
   console.log('AlkalomItemCtrl initialized', $stateParams);
   $scope.jogasok = Global.getJogasok();
