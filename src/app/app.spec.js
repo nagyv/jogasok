@@ -16,17 +16,27 @@ describe( 'AppCtrl', function() {
   });
 
   describe( 'Global Service: ', function() {
+    var $httpBackend, Global;
 
     beforeEach( module('bkJoga') );
-    beforeEach( inject(function($httpBackend) {
-      $httpBackend.whenGET('/jogasok').respond([
-        {id: 1, name: 'asdfasdf'}, 
-        {id: 2, name: '2wrerwert'}
-      ]);
-    }));
+    beforeEach( function() {
+      inject(function(_$httpBackend_) {
+        $httpBackend = _$httpBackend_;
+      });
 
-    it('getJogasok should return everyone', inject(function(Global) {
+      $httpBackend.whenGET('/jogasok').respond([
+          {id: 1, name: 'asdfasdf'}, 
+          {id: 2, name: '2wrerwert'}
+        ]);
+
+      inject(function(_Global_) {
+        Global = _Global_;
+      });
+    });
+
+    it('getJogasok should return everyone', function() {
+      $httpBackend.flush();
       expect(Global.getJogasok()).toEqual([]);
-    }));
+    });
   });
 });

@@ -55,16 +55,22 @@ angular.module( 'bkJoga.home', [
   $scope.alkalmak = Alkalom;
   $scope.setupAlkalom = function(alkalom) {
     alkalom = new Alkalom(alkalom);
-    return alkalom.$save(function(value, hdrs){
+    alkalom.$save(function(value, hdrs){
       $state.go('.details', {'alkalomId': value._id});
     });
+  };
+  $scope.today = function() {
+    return Date.now().day;
+  };
+  $scope.nextHour = function() {
+    return Date.now().hour + 1;
   };
 })
 
 .controller( 'AlkalomItemCtrl', function AlkalomItemCtrl($scope, Global, Alkalom, $stateParams) {
   console.log('AlkalomItemCtrl initialized', $stateParams);
   $scope.jogasok = Global.getJogasok();
-  $scope.alkalom = Alkalom.get($stateParams.alkalomId)
+  $scope.alkalom = Alkalom.get({id: $stateParams.alkalomId});
   $scope.addJogas = function(jogas) {
     $scope.jogasok = Global.addJogas( jogas );
     $scope.addResztvevo(jogas);
@@ -79,10 +85,9 @@ angular.module( 'bkJoga.home', [
     });
   };
   $scope.removeResztvevo = function(index) {
-    $scope.alkalom.resztvevok.splice(index, 1)
+    $scope.alkalom.resztvevok.splice(index, 1);
     $scope.alkalom.$save();
   };
 })
-
 ;
 

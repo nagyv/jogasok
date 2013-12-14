@@ -1,12 +1,16 @@
+<ui-view>
 <div class="jumbotron">
     <h2>Új alkalom indítása</h2>
     <form>
       <input type="text" placeholder="Jógatartó" ng-model="ujAlkalom.tartja" ng-required="true">
     <input type="text" placeholder="Segítő" ng-model="ujAlkalom.segit" ng-required="true">
-    <label for="idopont">Időpont:</label>
-    <input id="idopont" type="date" placeholder="Időpont" ng-model="ujAlkalom.idopont" required="required">
-    <input id="kezdes" type="time" placeholder="Kezdés" ng-model="ujAlkalom.kezdes" required="required">
+    <input type="text" placeholder="Helyszín" ng-model="ujAlkalom.location" required="required">
+    <input id="idopont" type="date" placeholder="Időpont" ng-model="ujAlkalom.date" required="required">
     <button class="btn" ng-click="setupAlkalom(ujAlkalom)">Mehet</button>
     </form>
-</div>
 
+    <!-- <ul>
+    	<li ng-repeat="alk in alkalmak.query()">{{alk}}</li>
+    </ul> -->
+</div>
+</ui-view>

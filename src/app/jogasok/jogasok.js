@@ -29,7 +29,10 @@ angular.module( 'bkJoga.jogasok', [
     var currJogas = $scope.jogasok[index];
     var instance = $modal.open({
       templateUrl: 'jogasok/jogasok.berlet.tpl.html',
-      // controller: BerletCtrl,
+      controller: function BerletCtrl( $scope, $modalInstance, jogas) {
+        $scope.jogas = jogas;
+        $scope.berlet = {};
+      },
       resolve: {
         jogas: function() {
           return currJogas;
@@ -41,12 +44,5 @@ angular.module( 'bkJoga.jogasok', [
     });
   };
 })
-
-// .controller( 'BerletCtrl', function BerletCtrl( $scope, $modalInstance, jogas) {
-//   $scope.jogas = jogas;
-//   $scope.ok = function() {
-
-//   }
-// })
 ;
 

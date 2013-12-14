@@ -9,11 +9,14 @@ angular.module( 'bkJoga', [
   'bkJoga.about'
 ])
 
-.config( function myAppConfig ( $stateProvider, $urlRouterProvider ) {
+.config( function myAppConfig ( $urlRouterProvider ) {
   $urlRouterProvider.otherwise( '/alkalmak' );
 })
 
-.run()
+.run(function($rootScope, $state, $stateParams, $httpBackend) {
+  $rootScope.$state = $state;
+  $rootScope.$stateParams = $stateParams;
+})
 
 .factory( 'Global', function( $resource ){
   var Jogas = $resource('/jogasok/:id/:action', {
@@ -22,7 +25,11 @@ angular.module( 'bkJoga', [
   }, {
     'ujBerlet': {'method': 'POST', 'params': {'action': 'ujBerlet'}}
   });
-  var jogasok = Jogas.query();
+  var jogasok = Jogas.query(function(data, hrds) {
+    console.log('success');
+  }, function(){
+    console.log('error');
+  });
   return {
     getJogasok: function() {
       return jogasok;
