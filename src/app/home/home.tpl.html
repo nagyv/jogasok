@@ -1,13 +1,24 @@
 <ui-view>
-<div class="jumbotron">
     <h2>Új alkalom indítása</h2>
-    <form>
-      <input type="text" placeholder="Jógatartó" ng-model="ujAlkalom.tartja" ng-required="true">
-    <input type="text" placeholder="Segítő" ng-model="ujAlkalom.segit" ng-required="true">
-    <input type="text" placeholder="Helyszín" ng-model="ujAlkalom.location" required="required">
-    <input id="idopont" type="date" placeholder="Időpont" ng-model="ujAlkalom.date" required="required">
-    <button class="btn" ng-click="setupAlkalom(ujAlkalom)">Mehet</button>
+    <form role="form" ng-submit="setupAlkalom(ujAlkalom)">
+        <div class="form-group">
+            <label for="jogatarto">Jógatartó</label>
+            <select id="jogatarto" class="form-control" autofocus ng-model="ujAlkalom.tartja" ng-required="true" ng-options="j.name as j.name for j in jogatartok"></select>
+            <!-- <input type="text" > -->
+        </div>
+        <div class="form-group">
+            <label for="segito">Segítő</label>
+            <input id="segito" type="text" placeholder="Segítő" class="form-control" ng-model="ujAlkalom.segit" ng-required="true">        
+        </div>
+        <div class="form-group">
+            <label for="helyszin">Helyszín</label>
+            <input id="helyszin" type="text" placeholder="Helyszín" class="form-control" ng-model="ujAlkalom.location" required="required">
+        </div>
+        <div class="form-group">
+            <label for="datum">Dátum</label>
+            <input id="datum" type="date" class="form-control" ng-model="ujAlkalom.date" required="required">
+            <input id="idopont" type="time" placeholder="Időpont" class="form-control" ng-model="ujAlkalom.time" required="required">
+        </div>
+        <button type="submit" class="btn btn-default">Mehet</button> <a ui-sref="alkalom.list">Alkalmak</a>
     </form>
-    <a ui-sref="alkalom.list">Alkalmak</a>
-</div>
 </ui-view>

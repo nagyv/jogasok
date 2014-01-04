@@ -12,6 +12,17 @@
  * The dependencies block here is also where component dependencies should be
  * specified, as shown below.
  */
+
+function nextHour() {
+  var hour = parseFloat(new Date().toISOString().slice(11,13));
+  var minute = parseFloat(new Date().toISOString().slice(14,16));
+  if (minute < 10 ) {
+    return + hour + ":00";
+  } else {
+    return ++hour + ":00";
+  }
+}
+
 angular.module( 'bkJoga.home', [
   'ui.router'
 ])
@@ -58,17 +69,18 @@ angular.module( 'bkJoga.home', [
  */
 .controller( 'AlkalomCtrl', function HomeController( $scope, Global, Alkalom , $stateParams, $state) {
   $scope.alkalmak = Alkalom;
+  $scope.jogatartok = Global.jogatartok;
+  $scope.ujAlkalom = {
+    tartja: null,
+    date: new Date().toJSON().slice(0,10),
+    time: nextHour()
+  };
   $scope.setupAlkalom = function(alkalom) {
+    alkalom.date = alkalom.date + " " + alkalom.time;
     alkalom = new Alkalom(alkalom);
     alkalom.$save(function(value, hdrs){
       $state.go('.details', {'alkalomId': value._id});
     });
-  };
-  $scope.today = function() {
-    return Date.now().day;
-  };
-  $scope.nextHour = function() {
-    return Date.now().hour + 1;
   };
 })
 .controller( 'AlkalomListCtrl', function AlkalomListCtrl( $scope, Alkalom) {
@@ -78,17 +90,19 @@ angular.module( 'bkJoga.home', [
   console.log('AlkalomItemCtrl initialized', $stateParams);
   $scope.jogasok = Global.getJogasok();
   $scope.alkalom = Alkalom.get({id: $stateParams.alkalomId});
-  $scope.addJogas = function(jogas) {
-    $scope.jogasok = Global.addJogas( jogas );
-    $scope.addResztvevo(jogas);
+  $scope.addJogas = function(name) {
+    var jogas = {
+      name: name
+    };
+    Global.addJogas( jogas, function(data) {
+      $scope.$apply();
+      $scope.addResztvevo(data);
+    } );
   };
   $scope.addResztvevo = function(jogas) {
     $scope.alkalom.$addResztvevo({
       '_id': $scope.alkalom._id,
       'jogas': jogas._id
-    }, function(value, hdrs) {
-      $scope.alkalom = value;
-      // .resztvevok.push(jogas);
     });
   };
   $scope.removeResztvevo = function(index) {

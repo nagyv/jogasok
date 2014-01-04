@@ -1,15 +1,13 @@
-<div class="jumbotron">
-    <h2>{{alkalom.date}} - {{alkalom.location}} / {{alkalom.tartja}}</h2>
-    <div class="row">
-      <div class="span6">Szűrés: <input type="text" ng-model="search"> <button ng-click="addJogas(search)" ng-show="search">Új jógázó</button>
-        <ul><li ng-repeat="jogas in jogasok | filter:search"><a ng-click="addResztvevo(jogas)">{{jogas.name}}</a></li></ul>
-      </div>
-      <div class="span6">
-        <ul>
-          <li ng-repeat="resztvevo in alkalom.resztvevok">{{resztvevo.name}}<button ng-click="removeResztvevo($index)">X</button></li>
-        </ul>
-      </div>
-    </div>
-
+<h2>{{alkalom.date | date:'medium' }} - {{alkalom.location}} / {{alkalom.tartja}}</h2>
+<div class="row">
+  <div class="col-xs-12">
+  	<h3>Szűrés: <input type="text" autofocus ng-model="search"> <button ng-click="addJogas(search)" ng-show="search">Új jógázó</button></h3>
+  </div>
+  <ul class="col-xs-6"><li ng-repeat="jogas in jogasok | filter:search"><a ng-click="addResztvevo(jogas)">{{jogas.toString()}}</a></li></ul>
+  <div class="col-xs-6">
+  	<h3>Résztvevők:</h3>
+    <ul>
+      <li ng-repeat="resztvevo in alkalom.resztvevok"><jogas jogas="resztvevo"></jogas><button ng-click="removeResztvevo($index)">X</button></li>
+    </ul>
+  </div>
 </div>
-

@@ -1,27 +1,38 @@
-<div class="jumbotron">
-  <h1>Jógázók listája</h1>
+<ui-view>
+<h1>Jógázók listája</h1>
 
-  Szűrés: <input type="text" ng-model="search">
-  <accordion>
+  <div class="form-group">
+  	Szűrés: <input type="text" autofocus ng-model="search">
+  </div>
+  <accordion accordion-id="emberek">
   	<accordion-group heading="Új ember" is-open="true" ng-hide="search">
-  		<form>
-		    <label>Név<input type="text" ng-model="jogas.name"/></label>
-			<label>Becenév<input type="text" ng-model="jogas.nick"/></label>
-			<label>E-mail<input type="text" ng-model="jogas.email"/></label>
-		    <button ng-click="addJogas(jogas)">Add</button>
+  		<form role="form" ng-submit="addJogas(jogas)">
+  			<div class="form-group">
+  				<label>Név<input type="text" ng-model="jogas.name"/></label>
+  			</div>
+  			<div class="form-group">
+  				<label>Becenév<input type="text" ng-model="jogas.nick"/></label>
+  			</div>
+  			<div class="form-group">
+  				<label>E-mail<input type="text" ng-model="jogas.email"/></label>
+  			</div>
+		    <button type="submit">Add</button>
 		  </form>
   	</accordion-group>
   	<accordion-group ng-repeat="jogas in jogasok | filter:search" heading="{{jogas.name}}">
-	<form>
-		<label>Név<input type="text" value="{{jogas.name}}" ng-model="jogas.name" /></label>
-		<label>Becenév<input type="text" value="{{jogas.nick}}" ng-model="jogas.nick" /></label>
-		<label>E-mail<input type="text" value="{{jogas.email}}" ng-model="jogas.email" /></label>
-		<button class="btn btn-primary" ng-click="jogas.$save()">Ment</button>
-		<button class="btn" ng-click="openBerlet($index)">Bérletet vesz</button>
+	<form role="form" ng-submit="jogas.$save()">
+		<div class="form-group">
+			<label>Név<input type="text" value="{{jogas.name}}" ng-model="jogas.name" /></label>	
+		</div>
+		<div class="form-group">
+			<label>Becenév<input type="text" value="{{jogas.nick}}" ng-model="jogas.nick" /></label>
+		</div>
+		<div class="form-group">
+			<label>E-mail<input type="text" value="{{jogas.email}}" ng-model="jogas.email" /></label>
+		</div>
+		<button type="submit" class="btn btn-primary">Ment</button>
+		<a class="btn" ui-sref="jogasok.berlet({jogasId:jogas._id})">Bérletek</a>
 	</form>
   	</accordion-group>
   </accordion>
-  
-
-</div>
-
+</ui-view>
