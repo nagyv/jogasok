@@ -4,7 +4,7 @@ angular.module( 'bkJoga', [
   'ui.router',
   'templates-app',
   'templates-common',
-  'bkJoga.home',
+  'bkJoga.alkalmak',
   'bkJoga.jogasok',
   'bkJoga.about'
 ])
@@ -71,6 +71,10 @@ angular.module( 'bkJoga', [
       { name: 'Pocok' },
       { name: 'Paci' },
       { name: 'Sisi' }
+    ],
+    varosok: [
+      { name: 'Budapest, Király utca'},
+      { name: 'Szeged, Takarékpénztár utca'}
     ]
   };
 })
@@ -86,7 +90,7 @@ angular.module( 'bkJoga', [
     scope: {
       jogas: '='
     },
-    templateUrl: 'jogasok/jogas.tpl.html'
+    templateUrl: 'jogasok/jogas.directive.tpl.html'
   };
 })
 

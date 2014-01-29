@@ -23,7 +23,7 @@ function nextHour() {
   }
 }
 
-angular.module( 'bkJoga.home', [
+angular.module( 'bkJoga.alkalmak', [
   'ui.router'
 ])
 
@@ -37,19 +37,19 @@ angular.module( 'bkJoga.home', [
   .state( 'alkalom', {
     url: '/alkalmak',
     controller: 'AlkalomCtrl',
-    templateUrl: 'home/home.tpl.html',
+    templateUrl: 'alkalmak/uj_alkalom.tpl.html',
     data:{ pageTitle: 'Új alkalom' }
   })
   .state( 'alkalom.list', {
     url: '/list',
     controller: 'AlkalomListCtrl',
-    templateUrl: 'home/alkalom.list.tpl.html',
+    templateUrl: 'alkalmak/alkalom.list.tpl.html',
     data:{ pageTitle: 'Alkalmak' }
   })
   .state('alkalom.details', {
     url: '/:alkalomId',
     controller: 'AlkalomItemCtrl',
-    templateUrl: 'home/alkalom.tpl.html',
+    templateUrl: 'alkalmak/alkalom.tpl.html',
     data:{ pageTitle: 'Alkalom' }
   });
 })
@@ -70,6 +70,7 @@ angular.module( 'bkJoga.home', [
 .controller( 'AlkalomCtrl', function HomeController( $scope, Global, Alkalom , $stateParams, $state) {
   $scope.alkalmak = Alkalom;
   $scope.jogatartok = Global.jogatartok;
+  $scope.varosok = Global.varosok;
   $scope.ujAlkalom = {
     tartja: null,
     date: new Date().toJSON().slice(0,10),
@@ -87,9 +88,12 @@ angular.module( 'bkJoga.home', [
   $scope.alkalmak = Alkalom.query();
 })
 .controller( 'AlkalomItemCtrl', function AlkalomItemCtrl($scope, Global, Alkalom, $stateParams) {
-  console.log('AlkalomItemCtrl initialized', $stateParams);
+//  console.log('AlkalomItemCtrl initialized', $stateParams);
+  $scope.search = '';
   $scope.jogasok = Global.getJogasok();
-  $scope.alkalom = Alkalom.get({id: $stateParams.alkalomId});
+  $scope.alkalom = Alkalom.get({id: $stateParams.alkalomId}, function(value, hdrs){
+    $scope.location = value.location;
+  });
   $scope.addJogas = function(name) {
     var jogas = {
       name: name

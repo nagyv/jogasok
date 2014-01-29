@@ -16,8 +16,14 @@ angular.module( 'bkJoga.jogasok', [
     templateUrl: 'jogasok/jogasok.tpl.html',
     data:{ pageTitle: 'Jógások' }
   })
-  .state( 'jogasok.berlet', {
-    url: '/:jogasId/berlet',
+  .state( 'jogasok.one', {
+      url: '/:jogasId',
+      controller: 'JogasCtrl',
+      templateUrl: 'jogasok/jogas.tpl.html',
+      data: {pageTitle: 'Jógázó'}
+  })
+  .state( 'jogasok.one.berlet', {
+    url: '/berlet',
     controller: 'BerletCtrl',
     templateUrl: 'jogasok/berlet.tpl.html',
     data:{ pageTitle: 'Bérlet' }
@@ -30,27 +36,14 @@ angular.module( 'bkJoga.jogasok', [
  */
 .controller( 'JogasokCtrl', function JogasokController( $scope, Global ) {
   $scope.jogasok = Global.getJogasok();
+  $scope.varosok = Global.varosok;
+  $scope.search = $scope.location = '';
   $scope.addJogas = function(jogas) {
     Global.addJogas( jogas );
   };
-  // $scope.openBerlet = function(jogasId) {
-  //   var currJogas = $scope.jogasok[index];
-  //   var instance = $modal.open({
-  //     templateUrl: 'jogasok/jogasok.berlet.tpl.html',
-  //     controller: function BerletCtrl( $scope, $modalInstance, jogas) {
-  //       $scope.jogas = jogas;
-  //       $scope.berlet = {};
-  //     },
-  //     resolve: {
-  //       jogas: function() {
-  //         return currJogas;
-  //       }
-  //     }
-  //   });
-  //   instance.result.then(function( berlet ) {
-  //     currJogas.$ujBerlet(berlet);
-  //   });
-  // };
+})
+.controller( 'JogasCtrl', function JogasCtrl( $scope, $stateParams, Global){
+    $scope.jogas = Global.Jogas.get({id: $stateParams.jogasId});
 })
 .controller( 'BerletCtrl', function BerletCtrl( $scope, $stateParams, $state, Global) {
   $scope.jogas = Global.Jogas.get({id:$stateParams.jogasId});

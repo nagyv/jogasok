@@ -1,1 +1,15 @@
-<span>{{jogas.name}} <span ng-if="jogas.nick"> ({{jogas.nick}})</span></span>
+<form role="form" ng-submit="jogas.$save()">
+    <div class="form-group">
+        <label>Név<input type="text" value="{{jogas.name}}" ng-model="jogas.name" /></label>
+    </div>
+    <div class="form-group">
+        <label>Becenév<input type="text" value="{{jogas.nick}}" ng-model="jogas.nick" /></label>
+    </div>
+    <div class="form-group">
+        <label>E-mail<input type="text" value="{{jogas.email}}" ng-model="jogas.email" /></label>
+    </div>
+    <div class="form-group">
+        <label>Város<input type="text" value="{{jogas.city}}" ng-model="jogas.city" /></label>
+    </div>
+    <button type="submit" class="btn btn-primary">Ment</button>
+</form>
