@@ -8,14 +8,13 @@
         <option value="">--</option>
       </select>
     </fieldset>
-    
-    
   </div>
-  <ul class="col-xs-6"><li ng-repeat="jogas in jogasok | filter:location | filter:search"><a ng-click="addResztvevo(jogas)">{{jogas.toString()}}</a></li></ul>
+  <ul class="col-xs-6"><li ng-repeat="jogas in jogasok | filter:location | filter:search"><a ng-click="addResztvevo(jogas)">{{jogas.toString()}}</a> <a ui-sref="jogasok.berlet({jogasId:jogas._id})" class="btn">Bérletek</a> </li></ul>
   <div class="col-xs-6">
   	<h3>Résztvevők:</h3>
     <ul>
-      <li ng-repeat="resztvevo in alkalom.resztvevok"><jogas jogas="resztvevo"></jogas><button ng-click="removeResztvevo($index)">X</button></li>
+      <li ng-repeat="resztvevo in alkalom.resztvevok"><jogas jogas="resztvevo"></jogas><button ng-click="removeResztvevo($index)">X</button>
+      </li>
     </ul>
   </div>
 </div>

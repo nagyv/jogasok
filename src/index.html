@@ -6,7 +6,7 @@
     <meta charset="utf-8"> 
     
     <!-- font awesome from BootstrapCDN -->
-    <!-- <link href="//netdna.bootstrapcdn.com/font-awesome/3.2.1/css/font-awesome.css" rel="stylesheet"> -->
+    <link rel="stylesheet" href="//netdna.bootstrapcdn.com/font-awesome/4.0.3/css/font-awesome.min.css">
 
     <!-- compiled CSS --><% styles.forEach( function ( file ) { %>
     <link rel="stylesheet" type="text/css" href="<%= file %>" /><% }); %>
@@ -25,19 +25,23 @@
           <ul class="nav navbar-nav">
             <li ng-class="{ active: $state.includes('alkalom') }">
               <a ui-sref="alkalom">
-                <i class="icon-home"></i>
+                <i class="fa fa-bars"></i>
                 Alkalmak
               </a>
             </li>
             <li ng-class="{ active: $state.includes('jogasok') }">
               <a ui-sref="jogasok">
-                <i class="icon-info-sign"></i>
+                <i class="fa fa-users"></i>
                 Jógázók
               </a>
             </li>
           </ul>
           <ul class="nav navbar-nav navbar-right">
-            <li class=""><a href="/signout">Logout</a></li>
+            <li class="">
+              <a href="/signout">
+                <i class="fa fa-user"></i>
+                Logout
+              </a></li>
           </ul>
         </div>
       </nav>
@@ -45,7 +49,10 @@
 
     <div class="container">
       <div class="row">
-        <div class="col-sx-12" ui-view></div>
+        <div class="col-sx-12  col-md-12" ng-controller="AlertCtrl">
+          <alert ng-repeat="alert in alerts" type="alert.type" close="closeAlert($index)">{{alert.msg}}</alert>
+        </div>
+        <div class="col-sx-12  col-md-12" ui-view></div>
       </div>
     </div>
     <hr>

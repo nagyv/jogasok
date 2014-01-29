@@ -1,15 +1,28 @@
 <ui-view>
-<h1>Jógázók listája</h1>
-  <fieldset>
-     <legend>Szűrés:</legend> 
-      <input type="text" autofocus ng-model="search">
+<div class="row">
+  <div class="col-sx-6  col-md-6">
+    <div>
+     <h3>Szűrés:</h3> 
+      <input type="text" ng-model="search">
       <select ng-model="location" ng-options="l.name as l.name for l in varosok">
         <option value="">--</option>
       </select>
-  </fieldset> 
-  <form role="form" ng-submit="addJogas(jogas)" ng-hide="search">
+    </div>
+    <h3>Jógázók</h3>
+    <ul>
+      <li ng-repeat="jogas in jogasok | filter: location | filter:search">
+          <jogas jogas="jogas"></jogas>
+          <a ui-sref="jogasok.adatok({jogasId:jogas._id})" class="btn">Adatok</a> 
+          <a ui-sref="jogasok.berlet({jogasId:jogas._id})" class="btn">Bérletek</a> 
+          <a href="#" class="btn">Történet</a>
+      </li>
+    </ul>
+  </div>
+  <div class="col-sx-6 col-md-6">
+    <h3>Új jógázó</h3>
+    <form role="form" ng-submit="addJogas(jogas)" ng-hide="search">
     <div class="form-group">
-        <label>Név<input type="text" ng-model="jogas.name"/></label>
+        <label>Név<input type="text" ng-model="jogas.name" autofocus ng-required="true" /></label>
     </div>
     <div class="form-group">
         <label>Becenév<input type="text" ng-model="jogas.nick"/></label>
@@ -17,12 +30,14 @@
     <div class="form-group">
         <label>E-mail<input type="text" ng-model="jogas.email"/></label>
     </div>
+    <div class="form-group">
+    <label>Város
+      <select ng-model="jogas.city" ng-options="l.name as l.name for l in varosok" ng-required="true" ></select>
+    </label>  
+    </div>
+    
     <button type="submit">Add</button>
-  </form>
-  <ul>
-      <li ng-repeat="jogas in jogasok | filter:search">
-          <jogas jogas="jogas"></jogas>
-          <a ui-sref="jogasok.one({jogasId:jogas._id})" class="btn">Adatok</a> <a ui-sref="jogasok.one.berlet({jogasId:jogas._id})" class="btn">Bérletek</a> <a href="#" class="btn">Történet</a>
-      </li>
-  </ul>
+    </form>
+  </div>
+</div>
 </ui-view>

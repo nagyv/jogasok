@@ -1,18 +1,15 @@
 {
-  "name": "ng-boilerplate",
-  "version": "0.3.1",
+  "name": "bkJoga",
+  "version": "0.2",
   "devDependencies": {
-    "angular": "~1.0.7",
-    "angular-mocks": "~1.0.7",
+    "angular": "~1.2.11",
+    "angular-mocks": "~1.2.11",
     "bootstrap": "~3.0.3",
-    "angular-bootstrap": "~0.7.0",
-    "angular-ui-router": "~0.2.6",
-    "angular-ui-utils": "~0.0.3"
+    "angular-bootstrap": "~0.10.0",
+    "angular-ui-router": "~0.2.8",
+    "angular-ui-utils": "~0.1.0"
   },
   "dependencies": {
-    "angular-resource": "~1.2.3"
-  },
-  "resolutions": {
-    "angular": "1.2.3"
+    "angular-resource": "~1.2.11"
   }
 }
