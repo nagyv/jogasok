@@ -96,7 +96,8 @@ angular.module( 'bkJoga.alkalmak', [
   });
   $scope.addJogas = function(name) {
     var jogas = {
-      name: name
+      name: name,
+      city: $scope.alkalom.location
     };
     Global.addJogas( jogas, function(data) {
       $scope.$apply();

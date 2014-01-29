@@ -38,6 +38,9 @@ angular.module( 'bkJoga.jogasok', [
   $scope.jogasok = Global.getJogasok();
   $scope.varosok = Global.varosok;
   $scope.search = $scope.location = '';
+  $scope.jogas = {
+    city: null
+  };
   $scope.addJogas = function(jogas) {
     Global.addJogas( jogas );
   };
