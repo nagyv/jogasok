@@ -6,7 +6,7 @@
     <meta charset="utf-8"> 
     
     <!-- font awesome from BootstrapCDN -->
-    <!-- <link href="//netdna.bootstrapcdn.com/font-awesome/3.2.1/css/font-awesome.css" rel="stylesheet"> -->
+    <link href="//netdna.bootstrapcdn.com/font-awesome/3.2.1/css/font-awesome.css" rel="stylesheet"> 
 
     <!-- compiled CSS --><% styles.forEach( function ( file ) { %>
     <link rel="stylesheet" type="text/css" href="<%= file %>" /><% }); %>
@@ -45,7 +45,10 @@
 
     <div class="container">
       <div class="row">
-        <div class="col-sx-12" ui-view></div>
+        <div class="col-sx-12  col-md-12" ng-controller="AlertCtrl">
+          <alert ng-repeat="alert in alerts" type="alert.type" close="closeAlert($index)">{{alert.msg}}</alert>
+        </div>
+        <div class="col-sx-12  col-md-12" ui-view></div>
       </div>
     </div>
     <hr>

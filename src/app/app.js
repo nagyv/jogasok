@@ -47,6 +47,7 @@ angular.module( 'bkJoga', [
     return this.name + " (" + (this.nick ? this.nick + ', ' : '') + "bérlet: " + (this.berlet() ? "van" : "nincs") + ")";
   };
   var jogasok = Jogas.query();
+  var messages = [];
   return {
     current_user: window.user,
     Jogas: Jogas,
@@ -75,7 +76,19 @@ angular.module( 'bkJoga', [
     varosok: [
       { name: 'Budapest, Király utca'},
       { name: 'Szeged, Takarékpénztár utca'}
-    ]
+    ],
+    addMessage: function(message) {
+      messages.push({
+        type: "success",
+        msg: message
+      });
+    },
+    getMessages: function() {
+      return messages;
+    },
+    removeMessage: function(idx) {
+      messages.splice(idx, 1);
+    }
   };
 })
 
@@ -101,5 +114,9 @@ angular.module( 'bkJoga', [
     }
   });
   $scope.user = Global.current_user;
+})
+.controller( 'AlertCtrl', function AlertCtrl( $scope, Global) {
+  $scope.alerts = Global.getMessages();
+  $scope.closeAlert = Global.removeMessage;
 })
 ;
