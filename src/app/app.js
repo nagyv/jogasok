@@ -83,6 +83,12 @@ angular.module( 'bkJoga', [
         msg: message
       });
     },
+    addWarning: function(message) {
+      messages.push({
+        type: 'warning',
+        msg: message
+      });
+    },
     getMessages: function() {
       return messages;
     },

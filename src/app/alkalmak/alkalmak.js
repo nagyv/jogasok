@@ -104,6 +104,11 @@ angular.module( 'bkJoga.alkalmak', [
     } );
   };
   $scope.addResztvevo = function(jogas) {
+    if($scope.alkalom.resztvevok.some(function(elem) { return elem._id == jogas._id; })) {
+      // avoid doubles
+      Global.addWarning(jogas.name + " már hozzá van adva");
+      return;
+    }
     $scope.alkalom.$addResztvevo({
       '_id': $scope.alkalom._id,
       'jogas': jogas._id
