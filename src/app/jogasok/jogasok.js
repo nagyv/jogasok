@@ -48,6 +48,12 @@ angular.module( 'bkJoga.jogasok', [
 .controller( 'JogasCtrl', function JogasCtrl( $scope, $stateParams, Global){
     $scope.jogas = Global.Jogas.get({id: $stateParams.jogasId});
     $scope.varosok = Global.varosok;
+    $scope.save = function save(jogas) {
+      $scope.jogas.$save({}, function(data){
+        Global.addMessage("Módosítások elmentve");
+        $window.history.back();
+      });
+    };
 })
 .controller( 'BerletCtrl', function BerletCtrl( $scope, $stateParams, $state, Global, $window) {
 
