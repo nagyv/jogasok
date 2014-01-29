@@ -16,17 +16,17 @@ angular.module( 'bkJoga.jogasok', [
     templateUrl: 'jogasok/jogasok.tpl.html',
     data:{ pageTitle: 'Jógások' }
   })
-  .state( 'jogasok.one', {
+  .state( 'jogasok.berlet', {
+    url: '/:jogasId/berlet',
+    controller: 'BerletCtrl',
+    templateUrl: 'jogasok/berlet.tpl.html',
+    data:{ pageTitle: 'Bérlet' }
+  })
+  .state( 'jogasok.adatok', {
       url: '/:jogasId',
       controller: 'JogasCtrl',
       templateUrl: 'jogasok/jogas.tpl.html',
       data: {pageTitle: 'Jógázó'}
-  })
-  .state( 'jogasok.one.berlet', {
-    url: '/berlet',
-    controller: 'BerletCtrl',
-    templateUrl: 'jogasok/berlet.tpl.html',
-    data:{ pageTitle: 'Bérlet' }
   })
   ;
 })
@@ -44,11 +44,13 @@ angular.module( 'bkJoga.jogasok', [
 })
 .controller( 'JogasCtrl', function JogasCtrl( $scope, $stateParams, Global){
     $scope.jogas = Global.Jogas.get({id: $stateParams.jogasId});
+    $scope.varosok = Global.varosok;
 })
 .controller( 'BerletCtrl', function BerletCtrl( $scope, $stateParams, $state, Global) {
   $scope.jogas = Global.Jogas.get({id:$stateParams.jogasId});
   $scope.save = function(berlet) {
     $scope.jogas.$ujBerlet(berlet, function(data) {
+      Global.addMessage("Bérlet elmentve");
       $state.go('jogasok');
     });
   };
