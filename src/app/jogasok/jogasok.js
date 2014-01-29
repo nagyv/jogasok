@@ -46,12 +46,14 @@ angular.module( 'bkJoga.jogasok', [
     $scope.jogas = Global.Jogas.get({id: $stateParams.jogasId});
     $scope.varosok = Global.varosok;
 })
-.controller( 'BerletCtrl', function BerletCtrl( $scope, $stateParams, $state, Global) {
+.controller( 'BerletCtrl', function BerletCtrl( $scope, $stateParams, $state, Global, $window) {
+
   $scope.jogas = Global.Jogas.get({id:$stateParams.jogasId});
+  $scope.window = $window;
   $scope.save = function(berlet) {
     $scope.jogas.$ujBerlet(berlet, function(data) {
       Global.addMessage("Bérlet elmentve");
-      $state.go('jogasok');
+      $window.history.back();
     });
   };
 })
