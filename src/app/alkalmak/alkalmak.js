@@ -13,14 +13,14 @@
  * specified, as shown below.
  */
 
-function nextHour() {
-  var hour = parseFloat(new Date().toISOString().slice(11,13));
-  var minute = parseFloat(new Date().toISOString().slice(14,16));
-  if (minute < 10 ) {
-    return + hour + ":00";
-  } else {
-    return ++hour + ":00";
-  }
+function nextHour(offset) {
+    var now = moment();
+    if( offset !== undefined) {
+        now.add('minute', offset);
+    }
+    now.set('hour', now.get('hour')+1);
+    now.set('minute', 0);
+    return now;
 }
 
 angular.module( 'bkJoga.alkalmak', [
@@ -71,13 +71,14 @@ angular.module( 'bkJoga.alkalmak', [
   $scope.alkalmak = Alkalom;
   $scope.jogatartok = Global.jogatartok;
   $scope.varosok = Global.varosok;
+  var _nextHour = nextHour();
   $scope.ujAlkalom = {
     tartja: null,
-    date: new Date().toJSON().slice(0,10),
-    time: nextHour()
+    date: _nextHour.format('YYYY-MM-DD'),
+    time: _nextHour.format('HH:mm')
   };
   $scope.setupAlkalom = function(alkalom) {
-    alkalom.date = alkalom.date + " " + alkalom.time;
+    alkalom.starts = alkalom.date + " " + alkalom.time;
     alkalom = new Alkalom(alkalom);
     alkalom.$save(function(value, hdrs){
       $state.go('.details', {'alkalomId': value._id});
